@@ -61,6 +61,7 @@ case class KarafFeature(
   def xmlTags: ConcreteHtmlTag[String] = tag("feature")(attr("name") := name)(
     attr("version")     := version,
     attr("description") := description,
+    attr("version") := version,
     tag("feature")(attr("prerequisite") := true, "wrap"),
     features.map(f => tag("feature")(f.name)),
     bundles.map { b =>
@@ -144,14 +145,14 @@ object bundles:
   def scala213Lib = Artifact(
     "org.scala-lang",
     "scala-library",
-    "2.13.10",
+    "2.13.12",
     "Scala :: Library"
   ).withoutScalaVersion
 
-  def scala322Lib = Artifact(
+  def scala3Lib = Artifact(
     "org.scala-lang",
     "scala3-library",
-    "3.2.2",
+    "3.3.1",
     "Scala3 :: Library"
   )
     .withRequiredBundle(
@@ -251,29 +252,29 @@ object features:
 
   def stdLib = feature(
     "scala-std-lib",
-    "3.2.2",
+    "3.3.1",
     "Scala3 :: Standard Library",
-    v => Seq(b.scala213Lib, b.scala322Lib)
+    v => Seq(b.scala213Lib, b.scala3Lib)
   )
 
   def cats =
-    feature("cats", "2.9.0", "Cats", b.cats, deps = stdLib)
+    feature("cats", "2.10.0", "Cats", b.cats, deps = stdLib)
 
   def catsEffect =
-    feature("cats-effect", "3.5.0", "Cats Effect", b.catsEffect, cats)
+    feature("cats-effect", "3.5.2", "Cats Effect", b.catsEffect, cats)
 
   def scribe = 
-    feature("scribe", "3.11.1", "Scribe", b.scribe)
+    feature("scribe", "3.11.2", "Scribe", b.scribe)
 
   def fs2      =
     feature(
       "fs2",
-      "3.7.0",
+      "3.9.2",
       "FS2",
       v =>
         b.fs2(v) ++ Seq(
-          b.scodec("1.1.37"),
-          b.ip4s("3.3.0"),
+          b.scodec("1.1.38"),
+          b.ip4s("3.4.0"),
           b.literally("1.1.0")
         ),
       catsEffect
@@ -290,7 +291,7 @@ object features:
   def catsParse =
     feature(
       "cats-parse",
-      "0.3.9",
+      "0.3.10",
       "Cats :: Parse",
       b.catsParse andThen (Seq(_)),
       cats
@@ -299,14 +300,14 @@ object features:
   def http4s =
     feature(
       "http4s",
-      "0.23.19",
+      "0.23.23",
       "Http4s",
       v =>
         b.http4s(v) ++ Seq(
           b.hpack("1.0.2"),
           b.http4sCrypto("0.2.4"),
           b.vault("3.5.0"),
-          b.caseInsensitive("1.3.0"),
+          b.caseInsensitive("1.4.0"),
           b.keypool("0.4.8")
         ),
       fs2,
