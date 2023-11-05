@@ -1,3 +1,5 @@
 .vscode/
 .metals/
 .scala-build/
+.bsp/
+

@@ -2,7 +2,7 @@
 
 /* Naive utilities to generate wrap:mvn urls */
 
-//>using scala "3.2.2"
+//>using scala "3.3.1"
 //>using lib "com.lihaoyi::scalatags:0.12.0"
 
 /** maven artifact. Do not use sbt's ModuleID to keep thinks self-contained
